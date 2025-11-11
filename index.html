@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Projects Showcase</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <h1>Student Projects Showcase</h1>
-  <ul id="project-list"></ul>
+<body class="container">
+  <header class="header">
+    <h1>Student Projects Showcase</h1>
+  </header>
+
+  <main>
+    <ul id="project-list" class="project-list"></ul>
+  </main>
 
   <script>
     async function loadProjects() {
@@ -18,16 +23,19 @@
       list.innerHTML = '';
 
       if (projects.length === 0) {
-        list.innerHTML = '<li>No projects yet — check back soon!</li>';
+        list.innerHTML = '<li class="empty">No projects yet — check back soon!</li>';
         return;
       }
 
       projects.forEach((proj, index) => {
         const li = document.createElement('li');
-        const link = document.createElement('a');
-        link.href = `project.html?id=${index}`;
-        link.textContent = `${proj.project} by ${proj.student}`;
-        li.appendChild(link);
+        li.className = 'project-card';
+        li.innerHTML = `
+          <a href="project.html?id=${index}">
+            <h2>${proj.project}</h2>
+            <p>By ${proj.student}</p>
+          </a>
+        `;
         list.appendChild(li);
       });
     }
