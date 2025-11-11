@@ -1,34 +1,95 @@
-body {
-  font-family: Arial, sans-serif;
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 0 20px;
-  background: #f9f9f9;
-  color: #333;
-}
-
-h1 {
-  text-align: center;
-}
-
-ul {
-  list-style: none;
+<!-- style.css -->
+* {
+  box-sizing: border-box;
+  margin: 0;
   padding: 0;
 }
 
-li {
-  margin: 10px 0;
+body.container {
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+  color: #333;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-a {
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+h2 {
+  font-size: 1.4rem;
+  color: #111827;
+}
+
+h3 {
+  font-size: 1.1rem;
+  color: #4b5563;
+  margin-top: 8px;
+}
+
+.project-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 0;
+}
+
+.project-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.project-card a {
   text-decoration: none;
-  color: #007acc;
+  color: inherit;
 }
 
-a:hover {
+.project-card p {
+  color: #4b5563;
+  margin-top: 6px;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+.back:hover {
   text-decoration: underline;
 }
 
-#project-embed {
-  margin-top: 20px;
+.project-embed {
+  margin-top: 24px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  min-height: 200px;
+}
+
+.empty {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 40px 0;
 }
