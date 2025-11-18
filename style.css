@@ -163,6 +163,14 @@ h1 {
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
+  justify-content: space-between;
+}
+
+.toolbar-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
 /* Search */
@@ -177,7 +185,7 @@ h1 {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
-  min-width: min(100%, 320px);
+  min-width: min(100%, 260px);
 }
 
 .search-icon {
@@ -195,6 +203,69 @@ h1 {
 
 .search input::placeholder {
   color: #9ca3af;
+}
+
+/* Genre pills */
+
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  background: #ffffff;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease-out,
+    color 0.15s ease-out,
+    border-color 0.15s ease-out,
+    box-shadow 0.15s ease-out,
+    transform 0.15s ease-out;
+}
+
+.pill:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+}
+
+.pill--active {
+  background: #1d4ed8;
+  color: #eff6ff;
+  border-color: #1d4ed8;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+/* Sort select */
+
+.select {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.select-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.select select {
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  padding: 4px 10px;
+  background: #ffffff;
+  color: var(--text-main);
 }
 
 /* Main */
@@ -294,10 +365,28 @@ h2 {
   margin-top: 4px;
 }
 
+.project-header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
 h3 {
   font-size: 1rem;
   color: var(--text-muted);
-  margin-top: 4px;
+}
+
+.genre-chip {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-weight: 600;
 }
 
 .main--project {
@@ -414,6 +503,15 @@ h3 {
   .header-top {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar-right {
+    justify-content: space-between;
   }
 
   .project-layout {
