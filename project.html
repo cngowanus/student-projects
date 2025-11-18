@@ -4,16 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Details</title>
+
+  <!-- Same font as the homepage -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="container">
-  <header class="header">
+  <header class="header header--project">
     <a href="index.html" class="back">← Back to projects</a>
-    <h1 id="project-name"></h1>
-    <h3 id="student-name"></h3>
+    <div class="title-block">
+      <h1 id="project-name"></h1>
+      <h3 id="student-name"></h3>
+    </div>
   </header>
 
-  <main>
+  <main class="main">
     <div id="project-embed" class="project-embed"></div>
   </main>
 
@@ -30,6 +38,7 @@
       }
 
       const project = projects[id];
+      document.title = project.project + ' • Ninja Projects Showcase';
       document.getElementById('project-name').textContent = project.project;
       document.getElementById('student-name').textContent = `By ${project.student}`;
       document.getElementById('project-embed').innerHTML = project.embed;
