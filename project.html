@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Details</title>
 
-  <!-- Same font as the homepage -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,17 +12,49 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="container">
-  <header class="header header--project">
-    <a href="index.html" class="back">← Back to projects</a>
-    <div class="title-block">
-      <h1 id="project-name"></h1>
-      <h3 id="student-name"></h3>
-    </div>
-  </header>
+  <div class="app-shell">
+    <header class="header header--project">
+      <div class="header-top header-top--project">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true">CN</div>
+          <div class="brand-text">
+            <span class="brand-title">Code Ninjas</span>
+            <span class="brand-subtitle">Student Game</span>
+          </div>
+        </div>
 
-  <main class="main">
-    <div id="project-embed" class="project-embed"></div>
-  </main>
+        <a href="index.html" class="back">← Back to all projects</a>
+      </div>
+
+      <div class="title-block">
+        <h1 id="project-name"></h1>
+        <div class="project-header-meta">
+          <h3 id="student-name"></h3>
+          <span id="project-genre" class="genre-chip"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="main main--project">
+      <section class="project-layout">
+        <div id="project-embed" class="project-embed">
+          <p class="loading">Loading game…</p>
+        </div>
+
+        <aside class="project-meta">
+          <h2 class="meta-title">How to play</h2>
+          <p class="meta-text">
+            Most games use the arrow keys or <strong>WASD</strong> plus
+            <strong>Space</strong>/<strong>Enter</strong> for actions.
+            Check the in-game instructions for anything special.
+          </p>
+          <p class="meta-tip">
+            Tip: For the best experience, try this page in full screen.
+          </p>
+        </aside>
+      </section>
+    </main>
+  </div>
 
   <script>
     async function loadProject() {
@@ -38,9 +69,12 @@
       }
 
       const project = projects[id];
-      document.title = project.project + ' • Ninja Projects Showcase';
+      const genre = project.genre || 'Game';
+
+      document.title = project.project + ' • Code Ninjas Projects';
       document.getElementById('project-name').textContent = project.project;
       document.getElementById('student-name').textContent = `By ${project.student}`;
+      document.getElementById('project-genre').textContent = genre;
       document.getElementById('project-embed').innerHTML = project.embed;
     }
 
