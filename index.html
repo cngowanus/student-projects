@@ -45,6 +45,19 @@
               aria-label="Search projects by title or student"
             />
           </label>
+
+          <div class="toolbar-right">
+            <div class="pill-group" id="genre-filters" aria-label="Filter by genre"></div>
+
+            <label class="select">
+              <span class="select-label">Sort</span>
+              <select id="sort-select" aria-label="Sort projects">
+                <option value="title-asc">Title A–Z</option>
+                <option value="title-desc">Title Z–A</option>
+                <option value="student-asc">Student A–Z</option>
+              </select>
+            </label>
+          </div>
         </div>
       </div>
     </header>
@@ -56,30 +69,83 @@
 
   <script>
     let allProjects = [];
+    let currentSearch = '';
+    let currentGenre = 'all';
+    let currentSort = 'title-asc';
 
     function formatCount(count) {
       return count === 1 ? '1 project' : `${count} projects`;
     }
 
-    function renderProjects(filterText = '') {
+    function renderGenreFilters(genres) {
+      const container = document.getElementById('genre-filters');
+      container.innerHTML = '';
+
+      const makePill = (value, label) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = label;
+        btn.className = 'pill' + (value === currentGenre ? ' pill--active' : '');
+        btn.setAttribute('data-value', value);
+        btn.addEventListener('click', () => {
+          currentGenre = value;
+          renderProjects();
+        });
+        return btn;
+      };
+
+      // "All" first
+      container.appendChild(makePill('all', 'All'));
+
+      genres.forEach((g) => {
+        container.appendChild(makePill(g, g));
+      });
+    }
+
+    function renderProjects(options = {}) {
+      if (options.search !== undefined) currentSearch = options.search;
+      if (options.genre !== undefined) currentGenre = options.genre;
+      if (options.sort !== undefined) currentSort = options.sort;
+
       const list = document.getElementById('project-list');
       const countEl = document.getElementById('project-count');
-      const query = filterText.trim().toLowerCase();
+      const query = currentSearch.trim().toLowerCase();
 
-      let visible = allProjects;
+      let visible = [...allProjects];
+
+      // Text search
       if (query) {
-        visible = allProjects.filter((proj) =>
+        visible = visible.filter((proj) =>
           proj.project.toLowerCase().includes(query) ||
           proj.student.toLowerCase().includes(query)
         );
       }
+
+      // Genre filter
+      if (currentGenre !== 'all') {
+        visible = visible.filter((proj) => proj.genre === currentGenre);
+      }
+
+      // Sorting
+      visible.sort((a, b) => {
+        if (currentSort === 'title-asc') {
+          return a.project.localeCompare(b.project);
+        }
+        if (currentSort === 'title-desc') {
+          return b.project.localeCompare(a.project);
+        }
+        if (currentSort === 'student-asc') {
+          return a.student.localeCompare(b.student);
+        }
+        return 0;
+      });
 
       list.innerHTML = '';
 
       if (!visible.length) {
         const message = allProjects.length === 0
           ? 'No projects yet — check back soon!'
-          : `No matches for “${filterText}”.`;
+          : `No matches for your filters.`;
         list.innerHTML = `<li class="empty">${message}</li>`;
         countEl.textContent = formatCount(0);
         return;
@@ -90,7 +156,7 @@
         li.className = 'project-card';
         li.innerHTML = `
           <a class="project-link" href="project.html?id=${proj.id}">
-            <div class="project-tag">MakeCode Arcade</div>
+            <div class="project-tag">${proj.genre || 'Game'}</div>
             <h2>${proj.project}</h2>
             <p class="project-student">By ${proj.student}</p>
           </a>
@@ -104,25 +170,40 @@
     async function loadProjects() {
       const response = await fetch('projects.json');
       const projects = await response.json();
-      // keep original index so links stay stable when filtering
-      allProjects = projects.map((proj, index) => ({ ...proj, id: index }));
+
+      // Keep index for link, add genre with fallback
+      allProjects = projects.map((proj, index) => ({
+        id: index,
+        genre: proj.genre || 'Other',
+        ...proj
+      }));
+
+      const genres = Array.from(
+        new Set(allProjects.map((p) => p.genre || 'Other'))
+      ).sort((a, b) => a.localeCompare(b));
+
+      renderGenreFilters(genres);
       renderProjects();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       const searchInput = document.getElementById('search-input');
+      const sortSelect = document.getElementById('sort-select');
 
       searchInput.addEventListener('input', (event) => {
-        renderProjects(event.target.value);
+        renderProjects({ search: event.target.value });
       });
 
-      // ESC clears the search
       searchInput.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
           event.target.value = '';
-          renderProjects('');
+          renderProjects({ search: '' });
           event.target.blur();
         }
+      });
+
+      sortSelect.addEventListener('change', (event) => {
+        renderProjects({ sort: event.target.value });
       });
 
       loadProjects();
