@@ -4,14 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ninja Projects Showcase</title>
+  <meta name="description" content="Play awesome Code Ninjas student games made with MakeCode Arcade." />
+
+  <!-- Modern, clean font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="container">
   <header class="header">
+    <p class="eyebrow">Code Ninjas • Student Gallery</p>
     <h1>Ninja Projects Showcase</h1>
+    <p class="subtitle">Click a card to launch each game in a full, playable view.</p>
   </header>
 
-  <main>
+  <main class="main">
     <ul id="project-list" class="project-list"></ul>
   </main>
 
@@ -22,7 +31,7 @@
       const list = document.getElementById('project-list');
       list.innerHTML = '';
 
-      if (projects.length === 0) {
+      if (!projects.length) {
         list.innerHTML = '<li class="empty">No projects yet — check back soon!</li>';
         return;
       }
@@ -31,9 +40,10 @@
         const li = document.createElement('li');
         li.className = 'project-card';
         li.innerHTML = `
-          <a href="project.html?id=${index}">
+          <a class="project-link" href="project.html?id=${index}">
+            <div class="project-tag">MakeCode Arcade</div>
             <h2>${proj.project}</h2>
-            <p>By ${proj.student}</p>
+            <p class="project-student">By ${proj.student}</p>
           </a>
         `;
         list.appendChild(li);
@@ -44,5 +54,3 @@
   </script>
 </body>
 </html>
-
-
